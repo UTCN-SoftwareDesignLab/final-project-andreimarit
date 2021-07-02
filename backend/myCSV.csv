@@ -1,0 +1,4 @@
+Patient(id=1, name=patientStart, phoneNumber=12345)
+Patient(id=2, name=patientSecond, phoneNumber=123123)
+Patient(id=3, name=vasile, phoneNumber=071111111111)
+Patient(id=7, name=dasdasd, phoneNumber=4213412)
