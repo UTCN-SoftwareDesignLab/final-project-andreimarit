@@ -6,6 +6,10 @@ import UserList from "../views/UserList.vue";
 import PatientList from "../views/PatientList.vue";
 import { auth as store } from "../store/auth.module";
 import Login from "../views/Login";
+import ProductList from "../views/ProductList.vue";
+import DiscountList from "../views/DiscountList.vue";
+import CartList from "../views/CartList.vue";
+
 
 Vue.use(VueRouter);
 
@@ -23,10 +27,35 @@ const routes = [
       if (store.getters.isAdmin) {
         next();
       } else {
-        next({ name: "Consultation" });
+        next({ name: "Product" });
       }
     },
   },
+  {
+    path: "/product",
+    name: "Product",
+    component: ProductList,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isEmployee) {
+        next();
+      } else {
+        next({ name: "Home" });
+      }
+    },
+  },
+  {
+    path: "/discount",
+    name: "Discount",
+    component: DiscountList,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isEmployee) {
+        next();
+      } else {
+        next({ name: "Home" });
+      }
+    },
+  },
+  
   // {
   //   path: "/consultation",
   //   name: "Consultation",
@@ -63,6 +92,19 @@ const routes = [
       }
     },
   },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: CartList,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.isClient) {
+        next();
+      } else {
+        next({ name: "Home" });
+      }
+    },
+  },
+  
   {
     path: "/about",
     name: "About",

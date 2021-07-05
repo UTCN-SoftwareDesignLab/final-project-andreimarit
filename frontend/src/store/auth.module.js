@@ -13,6 +13,7 @@ export const auth = {
       return api.auth.login(user).then(
         (user) => {
           commit("loginSuccess", user);
+          localStorage.setItem("walletUser", user.wallet+"");
           return Promise.resolve(user);
         },
         (error) => {
@@ -64,6 +65,12 @@ export const auth = {
     },
     isDoctor: (state) => {
       return state.user.roles.includes("DOCTOR");
+    },
+    isClient: (state) => {
+      return state.user.roles.includes("CLIENT");
+    },
+    isEmployee: (state) => {
+      return state.user.roles.includes("EMPLOYEE");
     },
   },
 };

@@ -16,7 +16,7 @@ export default {
       });
  },
  editUser(user){
-  return HTTP.patch(BASE_URL + "/user/" + user.id, user.id, user, {
+  return HTTP.put(BASE_URL + "/user/" + user.id, user, user.id, {
     headers: authHeader(),
   }).then((response) => {
     return response.data;

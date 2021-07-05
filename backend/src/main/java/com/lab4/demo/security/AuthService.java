@@ -38,13 +38,14 @@ public class AuthService {
                 .username(signUpRequest.getUsername())
                 .password(encoder.encode(signUpRequest.getPassword()))
                 .email(signUpRequest.getEmail())
+                .wallet(500L)
                 .build();
 
         Set<String> rolesStr = signUpRequest.getRoles();
         Set<Role> roles = new HashSet<>();
 
         if (rolesStr == null) {
-            Role defaultRole = roleRepository.findByName(ERole.DOCTOR)
+            Role defaultRole = roleRepository.findByName(ERole.CLIENT)
                     .orElseThrow(() -> new RuntimeException("Cannot find DOCTOR role"));
             roles.add(defaultRole);
         } else {

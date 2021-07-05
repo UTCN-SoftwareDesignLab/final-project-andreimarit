@@ -50,14 +50,16 @@ public class UserService {
 
     public UserListDTO create(UserListDTO userListDTO){
 
+        //=========================================================================================================
         Set<Role> roles = new HashSet<>();
-        Role defaultRole = roleRepository.findByName(ERole.DOCTOR)
+        Role defaultRole = roleRepository.findByName(ERole.CLIENT)
                 .orElseThrow(() -> new RuntimeException("Cannot find DOCTOR role"));
         roles.add(defaultRole);
         WsServerEndpoint.sendAlert("A new Doctor joins our clinic! Welcome, " + userListDTO.getUsername() + "!");
         userListDTO.setRole(roles);
         String password = encoder.encode(userListDTO.getPassword());
         userListDTO.setPassword(password);
+        //userListDTO.setWallet(500L);
         return userMapper.toDTO(userRepository.save(userMapper.fromDTO(userListDTO)));
     }
 
@@ -67,6 +69,7 @@ public class UserService {
         user.setUsername(userListDTO.getUsername());
         user.setPassword(encoder.encode(userListDTO.getPassword()));
         user.setRoles(userListDTO.getRole());
+        user.setWallet(userListDTO.getWallet());
         return userMapper.toDTO(userRepository.save(user));
 
     }

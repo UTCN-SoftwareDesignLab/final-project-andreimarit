@@ -1,9 +1,8 @@
 package com.lab4.demo.util.report;
 
-import com.lab4.demo.model.Consultation;
-import com.lab4.demo.repo.ConsultationRepository;
-import com.lab4.demo.repo.PatientRepository;
-import com.lab4.demo.model.Patient;
+import com.lab4.demo.model.Cart;
+import com.lab4.demo.model.Product;
+import com.lab4.demo.repo.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -11,8 +10,6 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +23,8 @@ public class PdfReportService implements ReportService {
 
 
 //    private final PatientRepository patientRepository;
-    private final ConsultationRepository consultationRepository;
+    private final CartRepository cartRepository;
+
 
     @Override
     public String export() throws IOException {
@@ -34,7 +32,7 @@ public class PdfReportService implements ReportService {
         System.out.println("entered in PDF to create");
         try {
             Date now = new Date();
-            List<Consultation> consultations = consultationRepository.findAll().stream().filter(consultation -> consultation.getId() != 0 ).collect(Collectors.toList());
+            List<Cart> carts = cartRepository.findAll().stream().filter(consultation -> consultation.getId() != 0 ).collect(Collectors.toList());
 
             PDDocument doc = new PDDocument();
             PDPage page = new PDPage();
@@ -44,12 +42,14 @@ public class PdfReportService implements ReportService {
             contentStream.beginText();
             contentStream.setLeading(14.5f);
             contentStream.newLineAtOffset(25, 700);
-            for (Consultation consultation : consultations) {
-                contentStream.showText(consultation.getId().toString() + "   ");
-                contentStream.showText("Patient: " + consultation.getPatient().getName() + "     ");
-                contentStream.showText("Doctor: " + consultation.getDoctor().getUsername() + "     ");
-                contentStream.showText("Date" + consultation.getDate());
-
+            for (Cart cart : carts) {
+                contentStream.showText(cart.getId().toString() + "   ");
+                contentStream.showText("Client: " + cart.getClient().getUsername() + "     ");
+                List<Product> products = cart.getProducts();
+                contentStream.showText("Products bought: ");
+                for (Product product : products) {
+                    contentStream.showText(product.getName() + " ");
+                }
                 contentStream.newLine();
             }
             contentStream.endText();

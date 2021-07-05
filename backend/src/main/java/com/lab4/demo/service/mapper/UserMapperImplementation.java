@@ -49,7 +49,9 @@ public class UserMapperImplementation implements UserMapper {
 
         Set<Role> role = null;
 
-        UserListDTO userListDTO = new UserListDTO( email, role, password );
+        Long wallet = user.getWallet();
+
+        UserListDTO userListDTO = new UserListDTO( email, role, password , wallet);
 
         userListDTO.setUsername( user.getUsername() );
         userListDTO.setId( user.getId() );
@@ -65,11 +67,15 @@ public class UserMapperImplementation implements UserMapper {
             return null;
         }
 
+        System.out.println(user.getUsername());
+        System.out.println(user.getWallet());
+
         UserString userString = new UserString();
 
         userString.setId( user.getId() );
         userString.setEmail( user.getEmail());
         userString.setRole(user.getRoles().stream().findFirst().get().getName().toString());
+        userString.setWallet(user.getWallet());
 
         //userString.setRole(ERole.DOCTOR.toString());
         return userString;
@@ -89,7 +95,9 @@ public class UserMapperImplementation implements UserMapper {
 
         Set<Role> role = user.getRoles();
 
-        UserListDTO userListDTO = new UserListDTO( email, role, password );
+        Long wallet = user.getWallet();
+
+        UserListDTO userListDTO = new UserListDTO( email, role, password , wallet);
 
         userListDTO.setUsername( user.getUsername() );
         userListDTO.setId( user.getId() );
@@ -111,10 +119,11 @@ public class UserMapperImplementation implements UserMapper {
         user1.setId( user.getId() );
         user1.setEmail( user.getEmail() );
         user1.setPassword( user.getPassword() );
+        user1.setWallet(user.getWallet());
 
         Set<Role> roles = new HashSet<>();
-        Role defaultRole = roleRepository.findByName(ERole.DOCTOR)
-                .orElseThrow(() -> new RuntimeException("Cannot find DOCTOR role"));
+        Role defaultRole = roleRepository.findByName(ERole.CLIENT)
+                .orElseThrow(() -> new RuntimeException("Cannot find CLIENT role"));
         roles.add(defaultRole);
 
         user1.setRoles(roles);

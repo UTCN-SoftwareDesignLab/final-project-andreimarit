@@ -50,6 +50,7 @@ public class AuthController {
                         .id(userDetails.getId())
                         .username(userDetails.getUsername())
                         .email(userDetails.getEmail())
+                        .wallet(userDetails.getWallet())
                         .roles(roles)
                         .build()
         );

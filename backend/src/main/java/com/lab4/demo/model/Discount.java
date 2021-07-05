@@ -6,28 +6,31 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "id"),
-                @UniqueConstraint(columnNames = "phoneNumber")
         }
 )
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
-public class Patient {
+public class Discount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User client;
 
-    @Column(length = 20, nullable = false)
-    private String phoneNumber;
-
+    @Column
+    @Min(1)
+    @Max(100)
+    private Long percent;
 }

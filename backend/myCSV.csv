@@ -1,4 +1,3 @@
-Patient(id=1, name=patientStart, phoneNumber=12345)
-Patient(id=2, name=patientSecond, phoneNumber=123123)
-Patient(id=3, name=vasile, phoneNumber=071111111111)
-Patient(id=7, name=dasdasd, phoneNumber=4213412)
+Product(id=1, price=10, quantity=10, name=papuci)
+Product(id=2, price=400, quantity=5, name=telefon)
+Product(id=3, price=1, quantity=50, name=suc)

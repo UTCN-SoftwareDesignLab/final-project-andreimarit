@@ -1,26 +1,21 @@
 package com.lab4.demo;
 
-import com.lab4.demo.dto.ConsultationDTO;
-import com.lab4.demo.dto.PatientDTO;
+import com.lab4.demo.dto.DiscountDTO;
+import com.lab4.demo.dto.ProductDTO;
 import com.lab4.demo.model.ERole;
 import com.lab4.demo.model.Role;
-import com.lab4.demo.repo.ConsultationRepository;
-import com.lab4.demo.repo.PatientRepository;
 import com.lab4.demo.repo.RoleRepository;
 import com.lab4.demo.repo.UserRepository;
-import com.lab4.demo.service.ConsultationService;
-import com.lab4.demo.service.PatientService;
+import com.lab4.demo.service.DiscountService;
 import com.lab4.demo.security.AuthService;
 import com.lab4.demo.security.dto.SignupRequest;
+import com.lab4.demo.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Set;
 
 @Component
@@ -33,13 +28,11 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
 
     private final AuthService authService;
 
-    private final PatientService patientService;
 
-    private final ConsultationService consultationService;
+    private final ProductService productService;
 
-    private final PatientRepository patientRepository;
+    private final DiscountService discountService;
 
-    private final ConsultationRepository consultationRepository;
 
     @Value("${app.bootstrap}")
     private Boolean bootstrap;
@@ -47,10 +40,10 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         if (bootstrap) {
-            patientRepository.deleteAll();
+
             userRepository.deleteAll();
             roleRepository.deleteAll();
-            consultationRepository.deleteAll();
+
 
             for (ERole value : ERole.values()) {
                 roleRepository.save(
@@ -69,19 +62,65 @@ public class Bootstrapper implements ApplicationListener<ApplicationReadyEvent> 
                     .email("doctor@email.com")
                     .username("doctor")
                     .password("Doctor!123")
-                    .roles(Set.of("DOCTOR"))
+                    .roles(Set.of("EMPLOYEE"))
+                    .build());
+            authService.register(SignupRequest.builder()
+                    .email("cineva@email.com")
+                    .username("cineva")
+                    .password("Cineva!123")
+                    .roles(Set.of("EMPLOYEE"))
+                    .build());
+            authService.register(SignupRequest.builder()
+                    .email("altcineva@email.com")
+                    .username("altcineva")
+                    .password("Altcineva!123")
+                    .roles(Set.of("EMPLOYEE"))
                     .build());
 
-            PatientDTO patientDTO = new PatientDTO(1L, "patientStart", "12345");
+            authService.register(SignupRequest.builder()
+                    .email("client@email.com")
+                    .username("client")
+                    .password("Client!123")
+                    .roles(Set.of("CLIENT"))
+                    .build());
 
-            patientService.create(patientDTO);
+            productService.create(ProductDTO.builder()
+                    .name("papuci")
+                    .price(10L)
+                    .quantity(10L)
+                    .build());
 
-            patientDTO = new PatientDTO(2L, "patientSecond", "123123");
+            productService.create(ProductDTO.builder()
+                    .name("telefon")
+                    .price(400L)
+                    .quantity(5L)
+                    .build());
 
-            patientService.create(patientDTO);
+            productService.create(ProductDTO.builder()
+                    .name("suc")
+                    .price(1L)
+                    .quantity(50L)
+                    .build());
 
-                ConsultationDTO consultationDTO = new ConsultationDTO(1L, "2021/07/07 15:00",1L, 2L);
-                consultationService.create(consultationDTO);
+            discountService.create(DiscountDTO.builder()
+                    .client(5L)
+                    .percent(50L)
+                    .build());
+
+
+
+//            PatientDTO patientDTO = new PatientDTO(1L, "patientStart", "12345");
+//
+//            patientService.create(patientDTO);
+//
+//            patientDTO = new PatientDTO(2L, "patientSecond", "123123");
+//
+//            patientService.create(patientDTO);
+//
+//                ConsultationDTO consultationDTO = new ConsultationDTO(1L, "2021/07/07 15:00",1L, 2L);
+//                consultationService.create(consultationDTO);
+
+
 
         }
     }

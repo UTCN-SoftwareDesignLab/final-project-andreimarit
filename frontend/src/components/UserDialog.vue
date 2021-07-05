@@ -14,6 +14,7 @@
           <v-text-field v-model="user.email" label="Email" />
           <v-text-field v-model="user.username" label="Username" />
           <v-text-field v-model="user.password" label="Password" />
+          <v-text-field v-model="user.wallet" label="Wallet" />
         </v-form>
         <v-card-actions>
           <v-btn @click="persist">
@@ -44,6 +45,7 @@ export default {
               email: this.user.email,
               username: this.user.username,
               password: this.user.password,
+              wallet: this.user.wallet,
             })
             .then(() => this.$emit("refresh"));
       } else {
@@ -52,7 +54,9 @@ export default {
               id: this.user.id,
               email: this.user.email,
               username: this.user.username,
-              password: this.user.password,              
+              password: this.user.password,   
+              role: this.user.role, 
+              wallet: this.user.wallet,          
             })
             .then(() => this.$emit("refresh"));
       }

@@ -60,6 +60,7 @@ export default {
       this.users = await api.users.allUsers();
     },
      async editUser(user) {
+       console.log(user.role);
     this.selectedUser = user;
     this.dialogVisible=true;
   },

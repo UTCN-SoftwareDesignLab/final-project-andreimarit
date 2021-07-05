@@ -52,9 +52,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers(API_PATH + "/cart/**").permitAll().and()
+                .authorizeRequests().antMatchers(API_PATH +"/product/**").permitAll().and()
                 .authorizeRequests().antMatchers("/socket/test").permitAll().and()
-                .authorizeRequests().antMatchers(API_PATH + "/consultation/**").permitAll().and()
-                .authorizeRequests().antMatchers(API_PATH +"/patient/**").permitAll().and()
+
+                .authorizeRequests().antMatchers(API_PATH + "/discount/**").permitAll().and()
+
                 .authorizeRequests().antMatchers(API_PATH + "/user/**").permitAll().and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

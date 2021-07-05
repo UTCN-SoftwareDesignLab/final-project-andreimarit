@@ -1,14 +1,10 @@
 package com.lab4.demo.sending;
 
-import com.lab4.demo.dto.ConsultationDTO;
-import com.lab4.demo.model.Consultation;
-import com.lab4.demo.model.Patient;
-import com.lab4.demo.repo.ConsultationRepository;
-import com.lab4.demo.service.mapper.ConsultationMapper;
-import com.lab4.demo.service.mapper.ConsultationMapperImplementation;
+import com.lab4.demo.dto.DiscountDTO;
+import com.lab4.demo.model.Discount;
+import com.lab4.demo.repo.DiscountRepository;
+import com.lab4.demo.service.mapper.DiscountMapperImplementation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -16,7 +12,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -27,8 +22,8 @@ import static com.lab4.demo.UrlMapping.PASSWORD;
 @RequiredArgsConstructor
 public class EmailSenderService {
 
-    private final ConsultationRepository consultationRepository;
-    private final ConsultationMapperImplementation consultationMapper;
+    private final DiscountRepository discountRepository;
+    private final DiscountMapperImplementation discountMapper;
 
 
     public void sendEmail() throws Exception{
@@ -49,11 +44,11 @@ public class EmailSenderService {
             }
         });
 
-        List<Consultation> consultations = consultationRepository.findAll().stream().filter(consultation -> consultation.getId() == 0).collect(Collectors.toList());
+        List<Discount> discounts = discountRepository.findAll().stream().collect(Collectors.toList());
 
-        for (Consultation consultation : consultations) {
-            ConsultationDTO consultationDTO = consultationMapper.toDto(consultation);
-            createEmail(session, messageToSend(consultationDTO));
+        for (Discount discount : discounts) {
+            DiscountDTO discountDTO = discountMapper.toDto(discount);
+            createEmail(session, messageToSend(discountDTO));
         }
     }
 
@@ -76,14 +71,14 @@ public class EmailSenderService {
         Transport.send(msg);
     }
 
-    private String messageToSend(ConsultationDTO consultationDTO){
+    private String messageToSend(DiscountDTO discountDTO){
         StringBuilder message=new StringBuilder();
         message.append("Hello! \n")
-                .append("This email is a reminder that you have a consultation.\n")
-                .append("Consultation details: ")
-                .append(consultationDTO.getDate())
-                .append(".\n")
-                .append("Please call us if you don't make it.\n")
+                .append("You have a new discount.\n")
+                .append("Your discount have a ")
+                .append(discountDTO.getPercent())
+                .append("% off.\n")
+                .append("Please use it before it expires.\n")
                 .append("Have a nice day!");
         return message.toString();
     }

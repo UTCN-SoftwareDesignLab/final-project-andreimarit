@@ -1,0 +1,4 @@
+
+
+
+Discount(id=1, client=User(id=5, username=client, email=client@email.com, password=$2a$10$ewlB7EgSuNLUCcP/i7rcu.fWJajTiEMsiQJsUZHYbdSC0wb3cBmfi, roles=[Role(id=2, name=CLIENT)], wallet=500), percent=50)

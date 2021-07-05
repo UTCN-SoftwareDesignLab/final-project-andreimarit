@@ -86,13 +86,13 @@ export default {
         if (this.$store.state.auth.status.loggedIn) {
           if (this.$store.getters["auth/isAdmin"]) {
             router.push("/user");
-          } else if(this.$store.getters["auth/isDoctor"]) 
+          } else if(this.$store.getters["auth/isEmployee"]) 
           {
-              router.push("/consultation")
+              router.push("/product")
           }          
-          // else{
-          //   router.push("/patient");
-          // }
+          else{
+            router.push("/cart");
+          }
         } else {
           alert("Invalid credentials!");
         }

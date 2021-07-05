@@ -14,7 +14,7 @@ import java.net.URI;
 public class SMSService {
 
     private final static String ACCOUNT_SID = "AC095d68a87bb96280882a5389bcf33ac8";
-    private final static String AUTH_ID = "cf95f5712cb0300367ca34c0590d979f";
+    private final static String AUTH_ID = "";
 
     static {
         Twilio.init(ACCOUNT_SID, AUTH_ID);
@@ -30,7 +30,7 @@ public class SMSService {
 //    private String FROM_NUMBER;
 
     public void send() {
-        SMS sms = new SMS("The message has been send by the app!");
+        SMS sms = new SMS("You received a new discount! Visit our store and buy what you need!");
 
         WsServerEndpoint.sendAlert("The SMS has been sent!");
         Message message = Message.creator(new com.twilio.type.PhoneNumber("+40744813445"), new PhoneNumber("+19083864823"), sms.getMessage())

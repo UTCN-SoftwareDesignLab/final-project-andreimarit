@@ -17,4 +17,5 @@ public class UserListDTO extends UserMinimalDTO {
     private String email;
     private Set<Role> role;
     private String password;
+    private Long wallet;
 }
